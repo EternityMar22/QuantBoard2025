@@ -13,6 +13,5 @@ dependencies = [
     "plotly",
     "python-dotenv",
     "requests",
-    "pandas",
     "pyarrow",
 ]
