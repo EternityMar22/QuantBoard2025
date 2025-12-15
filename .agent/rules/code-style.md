@@ -11,7 +11,7 @@ trigger: always_on
 
 * **文档产出 (Artifacts)**：
 
-* 所有生成的文档（如 `task.md`, `implementation_plan.md`, `walkthrough.md`, `README.md` 等）的内容、标题、列表项必须使用 **简体中文**。
+* 所有生成的文档（如 `task.md`, `Implementation Plan.md`, `walkthrough.md`, `README.md` 等）的内容、标题、列表项必须使用 **简体中文**。
 
 * **禁止**在文档正文中出现未翻译的英文段落（代码块、专业术语、文件名除外）。
 
