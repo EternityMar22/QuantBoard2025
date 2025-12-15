@@ -41,7 +41,8 @@ def init_db() -> None:
             CREATE TABLE IF NOT EXISTS fx_rates (
                 date DATE,
                 pair VARCHAR,
-                rate DOUBLE
+                rate DOUBLE,
+                PRIMARY KEY (date, pair)
             )
         """)
         print("Table 'fx_rates' check/create: Done")
