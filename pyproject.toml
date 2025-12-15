@@ -1,0 +1,18 @@
+[project]
+name = "quantboard2025"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit",
+    "polars",
+    "duckdb",
+    "akshare",
+    "yfinance",
+    "plotly",
+    "python-dotenv",
+    "requests",
+    "pandas",
+    "pyarrow",
+]
