@@ -24,10 +24,16 @@ def simple_ma_strategy(df: pl.DataFrame, window: int = 20) -> pl.DataFrame:
     ).with_columns(
         [
             pl.when(pl.col("close") > pl.col("ma"))
+            .then(pl.lit(1))
+            .when(pl.col("close") < pl.col("ma"))
+            .then(pl.lit(-1))
+            .otherwise(pl.lit(0))
+            .alias("signal"),
+            pl.when(pl.col("close") > pl.col("ma"))
             .then(pl.lit("买入"))
             .when(pl.col("close") < pl.col("ma"))
             .then(pl.lit("卖出"))
             .otherwise(pl.lit("持币"))
-            .alias("signal_str")
+            .alias("signal_str"),
         ]
     )
