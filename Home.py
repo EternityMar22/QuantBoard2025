@@ -3,7 +3,6 @@ import duckdb
 import polars as pl
 from src.config import TICKERS
 from src.strategies.demo_strategy import simple_ma_strategy
-import os
 
 # -----------------------------------------------------------------------------
 # Page Configuration
@@ -141,35 +140,33 @@ status_text.empty()
 if results:
     df_results = pl.DataFrame(results)
 
-    # 格式化
-    # Polars 到 Pandas 转换以使用 st.dataframe 的 styler (Streamlit 原生支持 Pandas Styler)
-    # 或者直接使用 st.dataframe 的 column_config
-
-    # 转换为 Pandas for display (Streamlit 兼容性更好)
-    df_display = df_results.to_pandas()
-
-    # 样式高亮函数
-    def highlight_buy(row):
-        return [
-            "background-color: #d4edda; color: #155724"
-            if row["今日信号"] == "买入"
-            else ""
-            for _ in row
-        ]
+    # 使用 Polars 原生支持 (Streamlit 已全面支持 Polars)
+    # 添加信号指示器列 (emoji) 替代 Pandas Styler 行高亮
+    df_display = df_results.with_columns(
+        pl.when(pl.col("今日信号") == "买入")
+        .then(pl.lit("🟢 买入"))
+        .when(pl.col("今日信号") == "卖出")
+        .then(pl.lit("🔴 卖出"))
+        .otherwise(pl.col("今日信号"))
+        .alias("今日信号")
+    )
 
     st.subheader("市场信号概览")
 
     st.dataframe(
-        df_display.style.apply(highlight_buy, axis=1).format(
-            {"最新价格": "{:.2f}", "20日涨跌幅": "{:.2%}"}
-        ),
-        use_container_width=True,
+        df_display,  # 直接传递 Polars DataFrame，无需转换
         hide_index=True,
+        use_container_width=True,
         column_config={
-            "Ticker": st.column_config.TextColumn("标的代码"),
+            "Ticker": st.column_config.TextColumn("标的代码", width="small"),
             "最新价格": st.column_config.NumberColumn("最新价格", format="%.2f"),
-            "今日信号": st.column_config.TextColumn("今日信号"),
-            "20日涨跌幅": st.column_config.NumberColumn("20日涨跌幅", format="%.2%"),
+            "今日信号": st.column_config.TextColumn("今日信号", width="medium"),
+            "20日涨跌幅": st.column_config.ProgressColumn(
+                "20日涨跌幅",
+                format="%.2f%%",
+                min_value=-0.5,
+                max_value=0.5,
+            ),
         },
     )
 else:
