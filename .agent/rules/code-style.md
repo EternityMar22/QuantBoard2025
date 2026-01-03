@@ -53,11 +53,6 @@ trigger: always_on
       * **版本要求：** 严格遵循 **Python 3.12+** 标准。使用UV和ruff管理python项目。
       * **类型提示：** 所有函数、方法必须包含 Type Hints (e.g., `def calc_ma(df: pl.DataFrame) -> pl.DataFrame:`).
 
-4.  **前端开发 (Frontend):**
-
-      * **Streamlit Native：** 仅使用 Streamlit 原生组件 (`st.dataframe`, `st.metric` 等)。
-      * **零 HTML/CSS：** 严禁手动编写 HTML 注入或 CSS 样式 hack，保持界面纯粹与维护性。
-
 -----
 
 ## 3\. 工程规范 (Engineering Standards)
